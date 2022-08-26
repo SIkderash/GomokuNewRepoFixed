@@ -1,1 +1,13 @@
-<p>game works!</p>
+<div class="centerFlex">
+    <div class="container post position-static center">
+        <div class="row borderGang " *ngFor="let i of board.getBoardMatrix(); let ix = index">
+          <div class="col-sm border border-secondary fixeds" *ngFor="let j of i; let iy = index" (click)="playerMakesMove(iy,ix)">
+              <div *ngIf="board.getBoardValue(ix,iy)==1"class="dotred"></div>
+              <div *ngIf="board.getBoardValue(ix,iy)==2"class="dotblue"></div>
+            </div>
+
+    
+        </div>
+      </div>
+    </div>
+    <img src="J:\Academics\6th semester\AI\Ashraf\Gomoku\src\assets\images\hello.jpg" class="img-fluid" alt="Responsive image">

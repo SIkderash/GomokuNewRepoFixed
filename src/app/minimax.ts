@@ -4,7 +4,7 @@ export class Minimax{
     // This variable is used to track the number of evaluations for benchmarking purposes.
 	evaluationCount : number = 0;
 	// Board instance is responsible for board mechanics
-	board : Board | undefined;
+	board : Board;
 	// Win score should be greater than all possible board scores
 	winScore : number = 100000000;
     constructor(board : Board) {
@@ -308,20 +308,22 @@ export class Minimax{
 
     public calculateNextMove(depth : number) : number[]{
 		
-		var move : any;
+		var move : any=Array(2);
 
 		// Check if any available move can finish the game to make sure the AI always
 		// takes the opportunity to finish the game.
 		var bestMove = this.searchWinningMove(this.board);
-
+		// console.log("hello");
 		if(bestMove != null ) {
 			// Finishing move is found.
 			move[0] = (bestMove[1]);
 			move[1] = (bestMove[2]);
 			
 		} else {
+			// console.log("before minimax");
 			// If there is no such move, search the minimax tree with specified depth.
 			bestMove = this.minimaxSearchAB(depth, this.board, true, -1.0, this.getWinScore());
+			// console.log("after minimax");
 			if(bestMove[1] == null) {
 				move = null;
 			} else {
@@ -351,30 +353,39 @@ export class Minimax{
 		 *				   \   ...
 		 *                  (Move N)
 		 */
-		var allPossibleMoves = board.generateMoves();
-		
+		let allPossibleMoves:any = board.generateMoves();
+		// console.log(allPossibleMoves);
+		// console.log("moves generated")
 		// If there is no possible move left, treat this node as a terminal node and return the score.
 		if(allPossibleMoves.length == 0) {
             var x = [this.evaluateBoardForWhite(board, !max), null, null];
+			
 			//Object[] x = {evaluateBoardForWhite(board, !max), null, null};
 			//return x;
 		}
 		
-		var bestMove : any[3];
-		
+		var bestMove : Array<number>=Array(3);
+		// console.log(bestMove);
 		// Generate Minimax Tree and calculate node scores.
 		if(max) {
+			// console.log("in max")
+			// console.log(allPossibleMoves.length);
 			// Initialize the starting best move with -infinity.
+			// console.log("ekhanei ki shesh?")
 			bestMove[0] = -1.0;
+			// console.log(allPossibleMoves);
+			
 			// Iterate for all possible moves that can be made.
-            var move: any; 
-			for(move in allPossibleMoves) {
+			for(let move of allPossibleMoves) {
+				
+				console.log(move);
 				// Create a temporary board that is equivalent to the current board
-				var dummyBoard : Board = { ...board};
+				let dummyBoard=board.clone();
                 //var dummyBoard = board;
-
+				// console.log(dummyBoard);
 				// Play the move on that temporary board without drawing anything
 				dummyBoard.addStoneNoGUI(move[1], move[0], false);
+				// dummyBoard.addStone(move[1], move[0], false);
 				
 				// Call the minimax function for the next depth, to look for a minimum score.
 				// This function recursively generates new Minimax trees branching from this node 
@@ -410,6 +421,7 @@ export class Minimax{
 			}
 		}
 		else {
+			console.log("in min")
 			// Initialize the starting best move using the first move in the list and +infinity score.
 			bestMove[0] = 100000000.0;
 			bestMove[1] = allPossibleMoves.at(0)?.at(0);
@@ -417,12 +429,13 @@ export class Minimax{
 			
 			// Iterate for all possible moves that can be made.
             var move: any; 
-			for(move in allPossibleMoves) {
+			for(move of allPossibleMoves) {
 				// Create a temporary board that is equivalent to the current board
-				var dummyBoard : Board = { ...board};
+				let dummyBoard=board.clone();
 
 				// Play the move on that temporary board without drawing anything
 				dummyBoard.addStoneNoGUI(move[1], move[0], true);
+				// dummyBoard.addStone(move[1], move[0], true);
 				
 				// Call the minimax function for the next depth, to look for a maximum score.
 				// This function recursively generates new Minimax trees branching from this node 
@@ -471,9 +484,14 @@ export class Minimax{
 		for(move in allPossibleMoves) {
 			this.evaluationCount++;
 			// Create a temporary board that is equivalent to the current board
-			var dummyBoard : Board = { ...board};
+			// var dummyBoard : Board = { ...board};
+			// let dummyBoard = structuredClone(board);
+			let dummyBoard=board.clone();
 			// Play the move on that temporary board without drawing anything
 				dummyBoard.addStoneNoGUI(move[1], move[0], false);
+				// console.log("here I am");
+				// console.log(dummyBoard);
+				// dummyBoard.addStone(move[1], move[0], false);
 			
 			// If the white player has a winning score in that temporary board, return the move.
 			if(this.getScore(dummyBoard,false,false) >= this.winScore) {

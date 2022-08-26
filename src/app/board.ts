@@ -1,11 +1,26 @@
 export class Board{
     size  : number = 0;
-    boardMatrix : number[][] = [];  
+    private boardMatrix : number[][] = [];  
     
     constructor(boardSize : number) { 
         this.size = boardSize;
+		for (var i = 0; i < this.size; i++) {
+			this.boardMatrix[i] = Array(this.size).fill(0);
+		}
+    }
+	public clone(): Board {
+        let cloneBoard = new Board(this.size);
+		for(let i=0;i<this.size;i++){
+			for(let j=0;j<this.size;j++){
+				cloneBoard.boardMatrix[i][j]=this.boardMatrix[i][j];
+			}
+		}
+		return cloneBoard;
     }
 
+	public getBoardValue(x:number,y:number) : number{
+		return this.boardMatrix[x][y];
+	}
 
     public getBoardSize() : number{
 		return this.size;
@@ -35,8 +50,8 @@ export class Board{
 	}
 
 
-    public generateMoves() : number[][]{
-		var moveList : Array<number>[] = [];
+    public generateMoves() : Array<number[]>{
+		var moveList : Array<number[]> = [];
 		
 		var boardSize = this.size;
 		
@@ -94,7 +109,7 @@ export class Board{
 				
 			}
 		}
-
+		console.log(moveList);
 		return moveList;
 		
 	}
