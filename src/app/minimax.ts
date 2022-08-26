@@ -7,8 +7,12 @@ export class Minimax{
 	board : Board;
 	// Win score should be greater than all possible board scores
 	winScore : number = 100000000;
+	gameOver: boolean=false;
     constructor(board : Board) {
 		this.board = board;
+	}
+	public getGameStatus():boolean{
+		return this.gameOver;
 	}
     // Getter function for the winScore 
 	public getWinScore() : number{
@@ -318,13 +322,15 @@ export class Minimax{
 			// Finishing move is found.
 			move[0] = (bestMove[1]);
 			move[1] = (bestMove[2]);
+			console.log("ekhane paisi")
+			this.gameOver=true;
 			
 		} else {
 			// console.log("before minimax");
 			// If there is no such move, search the minimax tree with specified depth.
 			bestMove = this.minimaxSearchAB(depth, this.board, true, -1.0, this.getWinScore());
 			// console.log("after minimax");
-			if(bestMove[1] == null) {
+			if(bestMove == null) {
 				move = null;
 			} else {
 				move[0] = (bestMove[1]);
@@ -378,7 +384,7 @@ export class Minimax{
 			// Iterate for all possible moves that can be made.
 			for(let move of allPossibleMoves) {
 				
-				console.log(move);
+				// console.log(move);
 				// Create a temporary board that is equivalent to the current board
 				let dummyBoard=board.clone();
                 //var dummyBoard = board;
@@ -421,7 +427,7 @@ export class Minimax{
 			}
 		}
 		else {
-			console.log("in min")
+			// console.log("in min")
 			// Initialize the starting best move using the first move in the list and +infinity score.
 			bestMove[0] = 100000000.0;
 			bestMove[1] = allPossibleMoves.at(0)?.at(0);
@@ -477,7 +483,7 @@ export class Minimax{
 
     private searchWinningMove(board : any) {
 		var allPossibleMoves = board.generateMoves();
-		var winningMove : any[3];
+		var winningMove : Array<number>=Array(3);
 		var move : any;
 		// Iterate for all possible moves
 

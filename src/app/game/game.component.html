@@ -3,12 +3,15 @@
         <div class="row borderGang " *ngFor="let i of board.getBoardMatrix(); let ix = index">
           <div class="col-sm border border-secondary fixeds" *ngFor="let j of i; let iy = index" (click)="playerMakesMove(iy,ix)">
              <!-- this the tag that shows the pieces on the board. -->
-            <div *ngIf="board.getBoardValue(ix,iy)==1"class="dotred"></div>
-            <div *ngIf="board.getBoardValue(ix,iy)==2"class="dotblue"></div>
+            <!-- <div *ngIf="board.getBoardValue(ix,iy)==1"class="dotred"></div> -->
+            <img src="../../assets/images/hello.jpg" *ngIf="board.getBoardValue(ix,iy)==1" class="fixeds">
+            <img src="../../assets/images/hello2.png" *ngIf="board.getBoardValue(ix,iy)==2" class="fixeds">
+            <!-- <div *ngIf="board.getBoardValue(ix,iy)==2"class="dotblue"></div> -->
+            
             </div>
 
     
         </div>
       </div>
     </div>
-    <!-- <img src="J:\Academics\6th semester\AI\Ashraf\Gomoku\src\assets\images\hello.jpg" class="img-fluid" alt="Responsive image"> -->
+    <!-- <img src="../../assets/images/hello.jpg" class="img-fluid" alt="Responsive image"> -->

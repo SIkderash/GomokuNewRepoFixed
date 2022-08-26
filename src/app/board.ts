@@ -109,7 +109,7 @@ export class Board{
 				
 			}
 		}
-		console.log(moveList);
+		// console.log(moveList);
 		return moveList;
 		
 	}
