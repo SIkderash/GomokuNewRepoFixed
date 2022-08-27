@@ -57,9 +57,10 @@ export class GameComponent implements OnInit {
 	// 	return this.board.addStone(posX, posY, black);
 	// }
 	playerMakesMove(x: number, y: number):void{
-		this.board.addStone(x,y,true);
-		this.aiMakesMove();
-		this.checkGameStatus();
+		if(this.board.addStone(x,y,true)){
+			this.aiMakesMove();
+			this.checkGameStatus();
+		}
 		
 	}
 	aiMakesMove():void{
@@ -74,7 +75,6 @@ export class GameComponent implements OnInit {
 			this.gameFinished=false;
 			this.ai=new Minimax(this.board);
 			this.dialog.open(GameOverDialogComponent);
-			
 		}
 	}
 	ngOnInit(): void {
